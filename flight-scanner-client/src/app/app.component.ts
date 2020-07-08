@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FlightsService } from './flights.service'
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { of } from 'rxjs';
 
@@ -10,6 +11,7 @@ import { of } from 'rxjs';
 export class AppComponent {
   origin : string;
   destination : string;
+  flights;
 
   flightSearchForm = new FormGroup({
     originInput: new FormControl(''),
@@ -24,6 +26,10 @@ export class AppComponent {
 
   title = 'Flight scanner';
   minDate = this.getYesterday();
+
+  constructor(service: FlightsService){
+    this.flights = service.getFlights();
+  }
 
   getCurrencies(){
     return ['USD', 'EUR', 'HRK']
