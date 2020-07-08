@@ -1,8 +1,9 @@
 <span class="bg-teal-200">{{ title }}</span> <br/>
 <div class="searchContainer">
   <form [formGroup]="flightSearchForm" (ngSubmit)="onSubmit()">
-    <input type="text" style="margin-right: 5px" formControlName="originInput" placeholder="origin">
-    <input type="text" style="margin-right: 5px" formControlName="destinationInput" placeholder="destination">
+    <input type="text" style="margin-right: 5px" formControlName="originInput" placeholder="Origin">
+    <input type="text" style="margin-right: 5px" formControlName="destinationInput" placeholder="Destination">
+    <input type="text" style="margin-right: 5px" formControlName="passengerNumInput" placeholder="Passenger number">
 
     <input [owlDateTimeTrigger]="dt1" 
           [owlDateTime]="dt1" 
@@ -24,6 +25,32 @@
 
     <button type="submit" [disabled]="!flightSearchForm.valid">Search</button>
   </form>
+  <br/>
+
+  <table class="table-auto">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Origin</th>
+        <th class="px-4 py-2">Destination</th>
+        <th class="px-4 py-2">Departure/return date</th>
+        <th class="px-4 py-2">Number of stops</th>
+        <th class="px-4 py-2">Number of passengers</th>
+        <th class="px-4 py-2">Currency</th>
+        <th class="px-4 py-2">Total price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="border px-4 py-2">Adam</td>
+        <td class="border px-4 py-2">Adam</td>
+        <td class="border px-4 py-2">Adam</td>
+        <td class="border px-4 py-2">Adam</td>
+        <td class="border px-4 py-2">Adam</td>
+        <td class="border px-4 py-2">Adam</td>
+        <td class="border px-4 py-2">Adam</td>
+      </tr>
+    </tbody>
+  </table>
 
   <p>{{origin}}</p>
 </div>
