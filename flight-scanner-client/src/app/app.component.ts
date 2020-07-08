@@ -15,7 +15,8 @@ export class AppComponent {
     originInput: new FormControl(''),
     destinationInput: new FormControl(''),
     currencyInput: new FormControl(''),
-    dateRangeInput: new FormControl('')
+    dateRangeInput: new FormControl(''),
+    passengerNumInput: new FormControl('')
   });
 
   currencies = this.getCurrencies();
