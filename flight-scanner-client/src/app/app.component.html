@@ -1,0 +1,29 @@
+<span class="bg-teal-200">{{ title }}</span> <br/>
+<div class="searchContainer">
+  <form [formGroup]="flightSearchForm" (ngSubmit)="onSubmit()">
+    <input type="text" style="margin-right: 5px" formControlName="originInput" placeholder="origin">
+    <input type="text" style="margin-right: 5px" formControlName="destinationInput" placeholder="destination">
+
+    <input [owlDateTimeTrigger]="dt1" 
+          [owlDateTime]="dt1" 
+          selectMode="range" 
+          rangeSeparator="-" 
+          placeholder="dd/MM/yyyy" 
+          [min]="minDate"
+          formControlName="dateRangeInput">
+    <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+    <owl-date-time pickerType="calendar" #dt1></owl-date-time>
+
+    <!-- <app-select-input [options]="currencies" [controlName]="currencyInputName"></app-select-input> -->
+    
+    <select formControlName="currencyInput">
+      <option *ngFor="let currency of currencies">
+          {{currency}}
+      </option>
+    </select>
+
+    <button type="submit" [disabled]="!flightSearchForm.valid">Search</button>
+  </form>
+
+  <p>{{origin}}</p>
+</div>
