@@ -22,5 +22,12 @@ namespace API.Controllers
         {
             return Ok("test");
         }
+
+        [HttpGet]
+        [Route("test")]
+        public IActionResult GetTest()
+        {
+            return Ok("wuhu");
+        }
     }
 }
