@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
-import { FlightsService } from './flights.service'
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { of } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
+
+import { FlightsService } from './flights.service';
+import { Flight } from './flight';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  providers: [FlightsService],
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   origin : string;
   destination : string;
-  flights;
+  flights: Flight[];
+  service;
 
   flightSearchForm = new FormGroup({
     originInput: new FormControl(''),
@@ -28,7 +31,7 @@ export class AppComponent {
   minDate = this.getYesterday();
 
   constructor(service: FlightsService){
-    this.flights = service.getFlights();
+    this.service = service;
   }
 
   getCurrencies(){
@@ -43,6 +46,7 @@ export class AppComponent {
   }
 
   onSubmit(){
+    this.flights = this.service.getFlights();
     console.log(this.flightSearchForm.value);
   };
 }
