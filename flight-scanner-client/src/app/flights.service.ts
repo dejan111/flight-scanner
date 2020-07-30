@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 //import { catchError } from 'rxjs/operators';
 
 import { Flight } from './flight';
+import { FlightRequest } from './flightRequest';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -22,10 +23,9 @@ export class FlightsService{
         
     }
 
-    getFlights(origin: string, destination: string, passengerNum: string, dateRange: string, currency: string): Observable<{}> {
+    getFlights(flightRequest: FlightRequest): Observable<Flight[]> {
         console.log('evo me tu');
-        this.flightsResponse$ = this.http.get(this.flightsUrl, httpOptions); //, {observe: 'body', responseType: 'json'}
-        this.flightsResponse$.subscribe();
-        return null;
+
+        return this.http.post<Flight[]>(this.flightsUrl, JSON.stringify(flightRequest), httpOptions);
     }
 }

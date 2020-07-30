@@ -7,8 +7,8 @@ namespace API.Models
 {
     public class Traveler
     {
-        public string Id { get; set; }
-        public string TravelerType { get; set; }
-        public string FareOptions { get; set; }
+        public string id { get; set; }
+        public string travelerType { get; set; }
+        public string fareOptions { get; set; }
     }
 }
