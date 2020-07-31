@@ -9,13 +9,13 @@ namespace API.Models.AmadeusResponse
     {
         public Data()
         {
-            Itineraries = new HashSet<Itinerary>();
+            Itineraries = new List<Itinerary>();
         }
 
         public string Id { get; set; }
         public bool OneWay { get; set; }
         public int NumberOfBookableSeats { get; set; }
-        public IEnumerable<Itinerary> Itineraries { get; set; }
+        public List<Itinerary> Itineraries { get; set; }
         public Price Price { get; set; }
     }
 }

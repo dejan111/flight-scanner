@@ -16,7 +16,7 @@ export class AppComponent {
   destination : string;
   flights: Flight[];
   flightRequest: FlightRequest = {};
-  service;
+  flightsService: FlightsService;
 
   flightSearchForm = new FormGroup({
     originInput: new FormControl(''),
@@ -33,11 +33,11 @@ export class AppComponent {
   minDate = this.getYesterday();
 
   constructor(service: FlightsService){
-    this.service = service;
+    this.flightsService = service;
   }
 
   getCurrencies(){
-    return ['USD', 'EUR', 'HRK']
+    return ['Choose currency', 'USD', 'EUR', 'HRK']
   }
   
   getYesterday() {
@@ -54,11 +54,15 @@ export class AppComponent {
     this.flightRequest.destination = this.flightSearchForm.value.destinationInput;
     this.flightRequest.passengersNum = this.flightSearchForm.value.passengerNumInput;
     this.flightRequest.currency = this.flightSearchForm.value.currencyInput;
-    this.flightRequest.departureDate = dateRangeArray[0];
-    this.flightRequest.returnDate = dateRangeArray[1];
+
+    let departureDate = new Date(dateRangeArray[0]);
+    let returnDate = new Date(dateRangeArray[1]);
+    this.flightRequest.departureDate = departureDate.toDateString();
+    this.flightRequest.returnDate = returnDate.toDateString();
 
     // this.flights = this.service.getFlights(this.flightRequest).subscribe();
-    let test = this.service.getFlights(this.flightRequest).subscribe();
-    console.log(test);
+    this.flightsService.getFlights(this.flightRequest).subscribe(response =>{
+      this.flights = response;
+    });
   };
 }

@@ -14,8 +14,6 @@
           formControlName="dateRangeInput">
     <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
     <owl-date-time pickerType="calendar" #dt1></owl-date-time>
-
-    <!-- <app-select-input [options]="currencies" [controlName]="currencyInputName"></app-select-input> -->
     
     <select formControlName="currencyInput">
       <option *ngFor="let currency of currencies">
@@ -26,31 +24,32 @@
     <button type="submit" [disabled]="!flightSearchForm.valid">Search</button>
   </form>
   <br/>
-
-  <table class="table-auto">
+<div id="tableDiv" class="px-8 py-2 justify-center">
+  <table class="border table-auto">
     <thead>
       <tr>
         <th class="px-4 py-2">Origin</th>
         <th class="px-4 py-2">Destination</th>
         <th class="px-4 py-2">Departure/return date</th>
-        <th class="px-4 py-2">Number of stops</th>
-        <th class="px-4 py-2">Number of passengers</th>
+        <th class="px-4 py-2">Departure/return stops</th>
+        <th class="px-4 py-2">Passengers num</th>
         <th class="px-4 py-2">Currency</th>
         <th class="px-4 py-2">Total price</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="border px-4 py-2">Adam</td>
-        <td class="border px-4 py-2">Adam</td>
-        <td class="border px-4 py-2">Adam</td>
-        <td class="border px-4 py-2">Adam</td>
-        <td class="border px-4 py-2">Adam</td>
-        <td class="border px-4 py-2">Adam</td>
-        <td class="border px-4 py-2">Adam</td>
+      <tr *ngFor="let flight of flights">
+        <td class="border px-4 py-2">{{flight.origin}}</td>
+        <td class="border px-4 py-2">{{flight.destination}}</td>
+        <td class="border px-4 py-2">{{flight.departureDate}}/{{flight.returnDate}}</td>
+        <td class="border px-4 py-2">{{flight.departureNumOfStops}}/{{flight.returnNumOfStops}}</td>
+        <td class="border px-4 py-2">{{flight.numOfPassengers}}</td>
+        <td class="border px-4 py-2">{{flight.currency}}</td>
+        <td class="border px-4 py-2">{{flight.totalAmount}}</td>
       </tr>
     </tbody>
   </table>
+</div>
 
   <p>{{origin}}</p>
 </div>

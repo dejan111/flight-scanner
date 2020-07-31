@@ -1,10 +1,11 @@
 export interface Flight {
-    origin ? : string,
-    destination ? : string,
-    departureDate ? : string,
-    returnDate ? : string,
-    numberOfStops ? : number,
-    passengerNum ? : number,
-    currency ? : string,
-    totalPrice ? : number
+    Origin ? : string,
+    Destination ? : string,
+    DepartureDate ? : string,
+    ReturnDate ? : string,
+    DepartureNumOfStops ? : string,
+    ReturnNumOfStops ? : string,
+    NumOfPassengers ? : number,
+    Currency ? : string,
+    TotalAmount ? : number
 }

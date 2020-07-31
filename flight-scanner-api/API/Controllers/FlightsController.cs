@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using API.ApiClient;
+using API.Mappers;
 using API.Models;
 using API.Models.AmadeusResponse;
 using IdentityModel.Client;
@@ -29,80 +30,32 @@ namespace API.Controllers
             _amadeusApiClient = amadeusApiClient ?? throw new ArgumentNullException(nameof(amadeusApiClient));
         }
 
-        [HttpPost]
-        [Route("flightList")]
-        public IActionResult GetFlights([FromBody] FlightRequest flightRequest)
+        [HttpGet]
+        [Route("flights")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, VaryByQueryKeys = new[] { "*" })]
+        public async Task<IActionResult> GetFlights([FromQuery] FlightRequest flightRequest)
         {
-            return Ok("test");
-        }
-
-        [HttpPost]
-        [Route("test")]
-        public async Task<IActionResult> GetTest([FromBody] FlightRequest flightRequest)
-        {
-            var flightSearch = new FlightSearch
-            {
-                currencyCode = flightRequest.Currency,
-                sources = new string[] { "GDS" }
-            };
-
-            try
-            {
-                var originDestinations = new OriginDestination[2];
-                var originDeparture = new OriginDestination
-                {
-                    id = 1,
-                    originLocationCode = flightRequest.Origin,
-                    destinationLocationCode = flightRequest.Destination,
-                    departureDateTimeRange = new DepartureDateTimeRange
-                    {
-                        date = flightRequest.DepartureDate.Substring(0, 10)
-                    }
-                };
-
-                originDestinations[0] = originDeparture;
-
-                var destinationDeparture = new OriginDestination
-                {
-                    id = 2,
-                    originLocationCode = flightRequest.Destination,
-                    destinationLocationCode = flightRequest.Origin,
-                    departureDateTimeRange = new DepartureDateTimeRange
-                    {
-                        date = flightRequest.ReturnDate.Substring(0, 10)
-                    }
-                };
-
-                originDestinations[1] = destinationDeparture;
-
-                var travelers = new Traveler[Convert.ToInt32(flightRequest.PassengersNum)];
-
-                for (int i = 0; i < Convert.ToInt32(flightRequest.PassengersNum); i++)
-                {
-                    var traveler = new Traveler
-                    {
-                        id = (i + 1).ToString(),
-                        travelerType = "ADULT"
-                    };
-
-                    travelers[i] = traveler;
-                };
-
-                flightSearch.originDestinations = originDestinations;
-                flightSearch.travelers = travelers;
-            }
-            catch (Exception ex)
-            {
-            }
+            var flightSearch = RequestMapper.RequestToSearch(flightRequest);
 
             string requestUri = string.Format("/v2/shopping/flight-offers");
             string json = await Task.Run(() => JsonConvert.SerializeObject(flightSearch));
 
-            var result = await _amadeusApiClient.PostProtectedResources(json, requestUri);
+            var result = "";
+
+            try
+            {
+                result = await _amadeusApiClient.PostProtectedResources(json, requestUri);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
 
             var amadeusResponse = JsonConvert.DeserializeObject<AmadeusResponse>(result);
 
-            return Ok(result);
+            var response = ResponseMapper.AmadeusToResponse(amadeusResponse, flightRequest.PassengersNum.ToString());
+
+            return Ok(response);
         }
     }
 }

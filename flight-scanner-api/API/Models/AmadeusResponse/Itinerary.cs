@@ -9,10 +9,10 @@ namespace API.Models.AmadeusResponse
     {
         public Itinerary()
         {
-            Segments = new HashSet<Segment>();
+            Segments = new List<Segment>();
         }
 
         public string Duration { get; set; }
-        public IEnumerable<Segment> Segments { get; set; }
+        public List<Segment> Segments { get; set; }
     }
 }

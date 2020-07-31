@@ -10,10 +10,10 @@ namespace API.Models.AmadeusResponse
     {
         public AmadeusResponse()
         {
-            Data = new HashSet<Data>();
+            Data = new List<Data>();
         }
 
         public Meta Meta { get; set; }
-        public IEnumerable<Data> Data { get; set; }
+        public List<Data> Data { get; set; }
     }
 }
