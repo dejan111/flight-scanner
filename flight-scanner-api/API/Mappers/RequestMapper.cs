@@ -22,8 +22,8 @@ namespace API.Mappers
                 var originDeparture = new OriginDestination
                 {
                     id = 1,
-                    originLocationCode = flightRequest.Origin,
-                    destinationLocationCode = flightRequest.Destination,
+                    originLocationCode = flightRequest.Origin.ToUpper(),
+                    destinationLocationCode = flightRequest.Destination.ToUpper(),
                     departureDateTimeRange = new DepartureDateTimeRange
                     {
                         date = Convert.ToDateTime(flightRequest.DepartureDate).ToString("yyyy-MM-dd")
