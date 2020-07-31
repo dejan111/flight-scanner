@@ -7,9 +7,9 @@ namespace API.Models
 {
     public class OriginDestination
     {
-        public int Id { get; set; }
-        public string OriginLocationCode { get; set; }
-        public string DestinationLocationCode { get; set; }
-        public DepartureDateTimeRange DepartureDateTimeRange { get; set; }
+        public int id { get; set; }
+        public string originLocationCode { get; set; }
+        public string destinationLocationCode { get; set; }
+        public DepartureDateTimeRange departureDateTimeRange { get; set; }
     }
 }

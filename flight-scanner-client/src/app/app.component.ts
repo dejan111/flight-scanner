@@ -3,18 +3,24 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { FlightsService } from './flights.service';
 import { Flight } from './flight';
+import { FlightRequest } from './flightRequest';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   providers: [FlightsService],
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title : string = 'Flight scanner';
   origin : string;
   destination : string;
   flights: Flight[];
-  service;
+  flightRequest: FlightRequest = {};
+  flightsService: FlightsService;
+
+  //pagination
+  paginationPage: number = 1;
 
   flightSearchForm = new FormGroup({
     originInput: new FormControl(''),
@@ -25,17 +31,15 @@ export class AppComponent {
   });
 
   currencies = this.getCurrencies();
-  currencyInputName = 'currencyInput'
-
-  title = 'Flight scanner';
+  currencyInputName = 'currencyInput';
   minDate = this.getYesterday();
 
   constructor(service: FlightsService){
-    this.service = service;
+    this.flightsService = service;
   }
 
   getCurrencies(){
-    return ['USD', 'EUR', 'HRK']
+    return ['Choose currency', 'USD', 'EUR', 'HRK']
   }
   
   getYesterday() {
@@ -46,7 +50,22 @@ export class AppComponent {
   }
 
   onSubmit(){
-    this.flights = this.service.getFlights();
-    console.log(this.flightSearchForm.value);
+    this.paginationPage = 1;
+    let dateRangeArray: Array<string> = this.flightSearchForm.value.dateRangeInput;
+    
+    this.flightRequest.origin = this.flightSearchForm.value.originInput;
+    this.flightRequest.destination = this.flightSearchForm.value.destinationInput;
+    this.flightRequest.passengersNum = this.flightSearchForm.value.passengerNumInput;
+    this.flightRequest.currency = this.flightSearchForm.value.currencyInput;
+
+    let departureDate = new Date(dateRangeArray[0]);
+    let returnDate = new Date(dateRangeArray[1]);
+    this.flightRequest.departureDate = departureDate.toDateString();
+    this.flightRequest.returnDate = returnDate.toDateString();
+
+    // this.flights = this.service.getFlights(this.flightRequest).subscribe();
+    this.flightsService.getFlights(this.flightRequest).subscribe(response =>{
+      this.flights = response;
+    });
   };
 }

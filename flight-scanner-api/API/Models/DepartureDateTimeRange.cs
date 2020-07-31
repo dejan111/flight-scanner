@@ -7,7 +7,7 @@ namespace API.Models
 {
     public class DepartureDateTimeRange
     {
-        public string Date { get; set; }
-        public string Time { get; set; }
+        public string date { get; set; }
+        public string time { get; set; }
     }
 }

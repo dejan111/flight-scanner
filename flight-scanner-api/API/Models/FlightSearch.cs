@@ -7,9 +7,9 @@ namespace API.Models
 {
     public class FlightSearch
     {
-        public string CurrencyCode { get; set; }
-        public OriginDestination[] OriginDestinations { get; set; }
-        public Traveler[] Travelers { get; set; }
-        public string[] Sources { get; set; }
+        public string currencyCode { get; set; }
+        public OriginDestination[] originDestinations { get; set; }
+        public Traveler[] travelers { get; set; }
+        public string[] sources { get; set; }
     }
 }
