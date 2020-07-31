@@ -1,55 +1,79 @@
-<span class="bg-teal-200">{{ title }}</span> <br/>
-<div class="searchContainer">
-  <form [formGroup]="flightSearchForm" (ngSubmit)="onSubmit()">
-    <input type="text" style="margin-right: 5px" formControlName="originInput" placeholder="Origin">
-    <input type="text" style="margin-right: 5px" formControlName="destinationInput" placeholder="Destination">
-    <input type="text" style="margin-right: 5px" formControlName="passengerNumInput" placeholder="Passenger number">
+<div class="flex flex-col">
+  <h1 class="justify-center font-bold pt-4 pd-2 px-8 text-3xl">{{ title }}</h1> <br/>
+  <form [formGroup]="flightSearchForm" (ngSubmit)="onSubmit()" class="w-full max-w-xl px-6 py-6">
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="originInput">
+          Origin
+        </label>
+        <input formControlName="originInput" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="originInput" type="text" placeholder="RIO">
+      </div>
+      <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="destinationInput">
+          Destination
+        </label>
+        <input formControlName="destinationInput" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="destinationInput" type="text" placeholder="MAD">
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="passengerNumInput">
+          Passengers number
+        </label>
+        <input formControlName="passengerNumInput" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="destinationInput" type="number" placeholder="4">
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="dateRangeInput">
+          Departure/return date
+        </label>
+        <input [owlDateTimeTrigger]="dt1"
+              [owlDateTime]="dt1"
+              selectMode="range"
+              rangeSeparator="-"
+              placeholder="12/31/1991"
+              [min]="minDate"
+              formControlName="dateRangeInput"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="dateRangeInput">
+        <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
+        <owl-date-time pickerType="calendar" #dt1></owl-date-time>
+      </div>
 
-    <input [owlDateTimeTrigger]="dt1" 
-          [owlDateTime]="dt1" 
-          selectMode="range" 
-          rangeSeparator="-" 
-          placeholder="dd/MM/yyyy" 
-          [min]="minDate"
-          formControlName="dateRangeInput">
-    <span [owlDateTimeTrigger]="dt1"><i class="fa fa-calendar"></i></span>
-    <owl-date-time pickerType="calendar" #dt1></owl-date-time>
-    
-    <select formControlName="currencyInput">
-      <option *ngFor="let currency of currencies">
-          {{currency}}
-      </option>
-    </select>
-
-    <button type="submit" [disabled]="!flightSearchForm.valid">Search</button>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="currencyInput">
+          Currency
+        </label>
+        <select formControlName="currencyInput" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="currencyInput" type="number">
+          <option *ngFor="let currency of currencies">
+            {{currency}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" [disabled]="!flightSearchForm.valid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
   </form>
-  <br/>
-<div id="tableDiv" class="px-8 py-2 justify-center">
-  <table class="border table-auto">
-    <thead>
-      <tr>
-        <th class="px-4 py-2">Origin</th>
-        <th class="px-4 py-2">Destination</th>
-        <th class="px-4 py-2">Departure/return date</th>
-        <th class="px-4 py-2">Departure/return stops</th>
-        <th class="px-4 py-2">Passengers num</th>
-        <th class="px-4 py-2">Currency</th>
-        <th class="px-4 py-2">Total price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let flight of flights">
-        <td class="border px-4 py-2">{{flight.origin}}</td>
-        <td class="border px-4 py-2">{{flight.destination}}</td>
-        <td class="border px-4 py-2">{{flight.departureDate}}/{{flight.returnDate}}</td>
-        <td class="border px-4 py-2">{{flight.departureNumOfStops}}/{{flight.returnNumOfStops}}</td>
-        <td class="border px-4 py-2">{{flight.numOfPassengers}}</td>
-        <td class="border px-4 py-2">{{flight.currency}}</td>
-        <td class="border px-4 py-2">{{flight.totalAmount}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-  <p>{{origin}}</p>
+  <div id="tableDiv" class="px-8 py-2 justify-center">
+    <table class="border table-auto">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Origin</th>
+          <th class="px-4 py-2">Destination</th>
+          <th class="px-4 py-2">Departure/return date</th>
+          <th class="px-4 py-2">Departure/return stops</th>
+          <th class="px-4 py-2">Passengers num</th>
+          <th class="px-4 py-2">Currency</th>
+          <th class="px-4 py-2">Total price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flight of flights | paginate: {itemsPerPage: 10, currentPage: paginationPage}">
+          <td class="border px-4 py-2">{{flight.origin}}</td>
+          <td class="border px-4 py-2">{{flight.destination}}</td>
+          <td class="border px-4 py-2">{{flight.departureDate}}/{{flight.returnDate}}</td>
+          <td class="border px-4 py-2">{{flight.departureNumOfStops}}/{{flight.returnNumOfStops}}</td>
+          <td class="border px-4 py-2">{{flight.numOfPassengers}}</td>
+          <td class="border px-4 py-2">{{flight.currency}}</td>
+          <td class="border px-4 py-2">{{flight.totalAmount}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br/>
+    <pagination-controls (pageChange)="paginationPage = $event"></pagination-controls>
 </div>

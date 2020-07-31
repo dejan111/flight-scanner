@@ -19,9 +19,7 @@ namespace API.ApiClient
 				?? throw new ArgumentNullException(nameof(amadeusServerClient));
 		}
 
-		protected override async Task<HttpResponseMessage> SendAsync(
-			HttpRequestMessage request,
-			CancellationToken cancellationToken)
+		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			// request the access token
 			var accessToken = await _amadeusServerClient.RequestClientCredentialsTokenAsync();

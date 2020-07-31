@@ -12,11 +12,15 @@ import { FlightRequest } from './flightRequest';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title : string = 'Flight scanner';
   origin : string;
   destination : string;
   flights: Flight[];
   flightRequest: FlightRequest = {};
   flightsService: FlightsService;
+
+  //pagination
+  paginationPage: number = 1;
 
   flightSearchForm = new FormGroup({
     originInput: new FormControl(''),
@@ -27,9 +31,7 @@ export class AppComponent {
   });
 
   currencies = this.getCurrencies();
-  currencyInputName = 'currencyInput'
-
-  title = 'Flight scanner';
+  currencyInputName = 'currencyInput';
   minDate = this.getYesterday();
 
   constructor(service: FlightsService){
@@ -48,6 +50,7 @@ export class AppComponent {
   }
 
   onSubmit(){
+    this.paginationPage = 1;
     let dateRangeArray: Array<string> = this.flightSearchForm.value.dateRangeInput;
     
     this.flightRequest.origin = this.flightSearchForm.value.originInput;

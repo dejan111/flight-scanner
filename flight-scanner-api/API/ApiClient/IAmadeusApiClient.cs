@@ -7,7 +7,6 @@ namespace API.ApiClient
 {
     public interface IAmadeusApiClient
     {
-        //Task<string> GetProtectedResources();
         Task<string> PostProtectedResources(string json, string url);
     }
 }
